@@ -1,0 +1,57 @@
+/ Program to output the arithmetic mean of 10 data entries on the output port in MARIE.
+
+/ Start organization from address 100
+ORG 100
+
+/ Loop to input the 10 data points
+Loop,	Input / Receive data point
+        StoreI DirArray / Store the data value in the current array position
+        Load Sum / Load the current sum
+        AddI DirArray / Add the data value at the current array position
+        / to the sum accumulator
+        Store Sum / Save the updated sum
+        Load DirArray / Load the array position
+        Add One / Increment the array position by 1
+        Store DirArray / Store the new array position
+		
+/ Counter to condition the loop        
+		Load Counter / Load the counter to control data input
+        Subt One / Decrement the counter by 1
+        Store Counter / Store the updated counter value
+        Skipcond 400 / Stop the loop when the counter reaches 0
+        Jump Loop / Repeat the loop if counter > 0
+        
+Average,	Load Sum / Load the sum (dividend)
+			Subt Ten / Subtract 10 from the sum (divisor)
+            Store Sum / Save the updated sum
+            Load Quotient / Load the quotient (to simulate division)
+            Add One / Increment by 1 each time a subtraction is made
+            Store Quotient / Store the updated quotient value
+            Load Sum / Load the updated sum
+            Skipcond 000 / If the sum (dividend) is negative, stop the loop
+            Jump Average / Repeat the loop if sum > 0
+            
+Result,		Load Quotient / Load the quotient
+			Subt One / Subtract 1 to truncate decimals
+            Store Quotient / Save the final quotient
+            Load Quotient / Load quotient
+			Output / Output the result to the output log
+            Halt / Stop the program
+
+/ Variables
+Quotient, DEC 0 / Quotient for calculating the average
+Sum, 	   DEC 0 / Dividend for the average calculation
+Ten,	   DEC 10 / Divisor for calculating the average
+One,	   DEC 1 / Constant value of one (for multiple uses)
+Counter,   DEC 10 / Counter to manage input of 10 data points
+DirArray,  ADR Array / Memory address of the array
+Array,	   DEC 0 / Array for 10 data points
+           DEC 0
+           DEC 0
+           DEC 0
+           DEC 0
+           DEC 0
+           DEC 0
+           DEC 0
+           DEC 0
+           DEC 0
